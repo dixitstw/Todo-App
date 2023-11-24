@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My ToDo App</title>
+  </head>
+  <body>
+    <input id="todo-title" placeholder="Enter your task here!" type="text" />
+    <input type="date" id="date-picker">
+    <button onclick="addTodo()">Add ToDo</button>
+    <div id="todo-list"></div>
+
+    <script>
+      let todos = [{
+        title: "Get groceries",
+        dueDate: '2020-05-09',
+        id: 'id1'
+      }, 
+      {
+        title: "Wash Car",
+        dueDate: '2021-08-23',
+        id: 'id2'
+      },
+      {
+        title: "Make Dinner",
+        dueDate: '2021-09-07',
+        id: 'id3'
+      }];
+
+
+      render(); 
+      
+      function addTodo() {
+        const textbox = document.getElementById('todo-title');
+        const title = textbox.value;
+        const datePicker = document.getElementById('date-picker');
+        const dueDate = datePicker.value;
+
+        const id = '' + new Date().getTime();
+
+        todos.push({
+            title: title,
+            dueDate: dueDate,
+            id: id
+        }
+        );
+        render();
+      }    
+
+      function deleteToDo(event) {
+        const deleteButton = event.target;
+        const idToDelete = deleteButton.id;
+
+        todos = todos.filter(function (todo) {
+             if(todo.id === idToDelete){
+                return false
+             } else {
+                return true;
+             }
+        });
+        render();
+      }
+
+      function render() {
+        document.getElementById('todo-list').innerHTML= '';
+
+        todos.forEach(function (todo) {
+        const element = document.createElement("div");
+        element.innerText = todo.title + ':' + todo.dueDate;
+
+        const deleteButton = document.createElement('button');
+            deleteButton.innerText='Delete';
+            deleteButton.style='margin-left: 12px';
+            deleteButton.onclick = deleteToDo;
+            deleteButton.id = todo.id;
+            element.append(deleteButton);
+
+        const todoList = document.getElementById('todo-list');
+        todoList.append(element);
+      });
+      }
+    </script>
+
+
+  </body>
+  <style>
+body {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: 400px;
+    background: url('https://previews.123rf.com/images/mangpor2004/mangpor20041605/mangpor2004160500099/56383918-to-do-list-background-template.jpg');
+    background-size: cover; /* This will cover the entire body without stretching the image */
+    background-position: center; /* Center the background image */
+
+}
+
+#todo-list {
+    padding: 10px;
+    margin-left: 1rem;
+    font-size: 1.5rem;
+    font-family: 'sans-serif';
+    margin: 1rem;
+}
+
+input {
+    font-size: 1.3rem;
+    font-family: sans-serif;
+    padding: 0.2rem;
+    margin: 0.4rem;
+}
+
+button{
+    font-size: 1.3rem;
+    margin-left: 1rem;    
+    border-radius: 3px;
+    padding: 0.3rem;
+}
+button:hover{
+    background-color: yellowgreen;
+}
+
+</style>
+</html>
